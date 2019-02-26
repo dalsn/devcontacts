@@ -20,6 +20,6 @@ let DeveloperSchema = Schema({
 	}
 });
 
-let DeveloperModel = mongoose.model('Developer', DeveloperSchema);
+let developer = mongoose.model('Developer', DeveloperSchema);
 
 module.exports = developer;
