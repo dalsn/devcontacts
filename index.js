@@ -33,7 +33,7 @@ mongoose.connection.on('connected', function() {
 	console.log("Connected to DB");
 });
 
-app.listen(config.port, function(err){
+app.listen(config.port, (err) => {
 	if (err) throw err;
 	console.log("Listening on port " + config.port);
 });

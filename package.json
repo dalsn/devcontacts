@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/dalsn/devcontacts/issues"
   },
-  "homepage": "https://github.com/dalsn/devcontacts#readme"
+  "homepage": "https://github.com/dalsn/devcontacts#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "sinon": "^7.2.4",
+    "sinon-mongoose": "^2.2.1"
+  }
 }

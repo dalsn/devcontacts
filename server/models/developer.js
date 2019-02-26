@@ -22,4 +22,4 @@ let DeveloperSchema = Schema({
 
 let DeveloperModel = mongoose.model('Developer', DeveloperSchema);
 
-module.exports = DeveloperModel;
+module.exports = developer;
