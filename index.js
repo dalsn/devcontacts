@@ -23,9 +23,9 @@ app.use(methodOverride());
 
 routes(app)
 
-// app.get("*", (req, res) => res.status(SUCCESS).send({
-//     "message": "Developers's Contacts API",
-// }));
+app.get("*", (req, res) => res.status(SUCCESS).send({
+    "message": "Developers's Contacts API",
+}));
 
 mongoose.connect(config.db);
 
