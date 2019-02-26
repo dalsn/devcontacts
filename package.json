@@ -1,0 +1,23 @@
+{
+  "name": "developer-contacts",
+  "version": "1.0.0",
+  "description": "An API for developer contacts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dalsn/devcontacts.git"
+  },
+  "keywords": [
+    "developers",
+    "contacts"
+  ],
+  "author": "Dalhatu Njidda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dalsn/devcontacts/issues"
+  },
+  "homepage": "https://github.com/dalsn/devcontacts#readme"
+}
