@@ -20,13 +20,6 @@
     "url": "https://github.com/dalsn/devcontacts/issues"
   },
   "homepage": "https://github.com/dalsn/devcontacts#readme",
-  "dependencies": {
-    "chai": "^4.2.0",
-    "chai-http": "^4.2.1",
-    "mocha": "^6.0.2",
-    "sinon": "^7.2.4",
-    "sinon-mongoose": "^2.2.1"
-  },
   "devDependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
@@ -34,6 +27,9 @@
     "method-override": "^3.0.0",
     "mongoose": "^5.4.15",
     "morgan": "^1.9.1",
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^6.0.2"
   }
 }

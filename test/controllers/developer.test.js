@@ -1,4 +1,3 @@
-// let sinon = require("sinon");
 let mongoose = require("mongoose");
 let Dev = require("../../server/models/developer");
 
@@ -7,16 +6,9 @@ let chaiHttp = require('chai-http');
 let server = require('../../index.js');
 let should = chai.should();
 
-// require("sinon-mongoose");
-
 chai.use(chaiHttp);
 
 describe('DeveloperContact', () => {
-	// beforeEach((done) => {
-	// 	Dev.remove({}, (err) => {
-	// 		done();
-	// 	});
-	// });
 
 	describe('/GET developer', () => {
 		it('it should GET all the developers', (done) => {
@@ -37,7 +29,7 @@ describe('DeveloperContact', () => {
 		it('it should POST a developer ', (done) => {
 			let developer = {
 				name: "Dalhatu Njidda",
-				type: "Backend Developer",
+				role: "Backend Developer",
 				email: "dalsdnjidda@gmail.com",
 				phone: "08132842499"
 			};
@@ -48,10 +40,11 @@ describe('DeveloperContact', () => {
 				res.should.have.status(200);
 				res.body.should.be.a('object');
 				res.body.should.have.property('message').eql('Developer successfully added!');
+				res.body.should.have.property('developer');
 				res.body.developer.should.have.property('name');
 				res.body.developer.should.have.property('email');
 				res.body.developer.should.have.property('phone');
-				res.body.developer.should.have.property('type');
+				res.body.developer.should.have.property('role');
 				done();
 			});
 		});
@@ -61,7 +54,7 @@ describe('DeveloperContact', () => {
 		it('it should GET a developer by the given id', (done) => {
 			let developer = new Dev({
 				name: "Saleema Dalhatu",
-				type: "Frontend Developer",
+				role: "Frontend Developer",
 				email: "dalsnjidda@gmail.com",
 				phone: "09023084045"
 			});
@@ -75,7 +68,7 @@ describe('DeveloperContact', () => {
 					res.body.should.have.property('name');
 					res.body.should.have.property('email');
 					res.body.should.have.property('phone');
-					res.body.should.have.property('type');
+					res.body.should.have.property('role');
 					res.body.should.have.property('_id').eql(developer.id);
 					done();
 				});
@@ -87,7 +80,7 @@ describe('DeveloperContact', () => {
 		it('it should UPDATE a developer given the id', (done) => {
 			let developer = new Dev({
 				name: "Zainab Dalhatu",
-				type: "Backend Developer",
+				role: "Backend Developer",
 				email: "dals.njidda@gmail.com",
 				phone: "08136545311"
 			});
@@ -96,15 +89,15 @@ describe('DeveloperContact', () => {
 				.put('/api/developer/' + developer.id)
 				.send({
 					name: "Zainab Dalhatu",
-					type: "Fullstack Developer",
+					role: "Fullstack Developer",
 					email: "dals.njidda@gmail.com",
-					phone: "0803716861"
+					phone: "08037164861"
 				})
 				.end((err, res) => {
 					res.should.have.status(200);
 					res.body.should.be.a('object');
-					res.body.should.have.property('message').eql('Developer contact updated!');
-					res.body.developer.should.have.property('type').eql("Fullstack Developer");
+					res.body.should.have.property('message').eql('Developer updated!');
+					res.body.developer.should.have.property('role').eql("Fullstack Developer");
 					res.body.developer.should.have.property('phone').eql("08037164861");
 					done();
 				});
@@ -116,7 +109,7 @@ describe('DeveloperContact', () => {
 		it('it should DELETE a developer given the id', (done) => {
 			let developer = new Dev({
 				name: "Zainab Dalhatu",
-				type: "Backend Developer",
+				role: "Backend Developer",
 				email: "dals.njidda@gmail.com",
 				phone: "08136545311"
 			});

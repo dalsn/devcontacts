@@ -10,7 +10,7 @@ exports.index = (req, res) => {
                 error: "An error occurred"
             });
             return;
-        };
+        }
 
         res.json({
             status: true,
@@ -19,3 +19,67 @@ exports.index = (req, res) => {
     });
 
 };
+
+exports.store = (req, res) => {
+
+    let developer = new Dev(req.body);
+
+    developer.save((err, developer) => {
+        if(err) {
+            res.json({
+                status: false,
+                error: "An error occurred"
+            });
+            return;
+        }
+
+        res.json({message: "Developer successfully added!", developer });
+    });
+};
+
+exports.view = (req, res) => {
+
+    Dev.findById(req.params.id, (err, developer) => {
+        if(err) {
+            res.json({
+                status: false,
+                error: "An error occurred"
+            });
+            return;
+        }
+
+        res.json(developer);
+    });
+};
+
+exports.delete = (req, res) => {
+
+    Dev.deleteOne({_id : req.params.id}, (err, result) => {
+
+        res.json({ message: "Developer successfully deleted!", result });
+    });
+}
+
+exports.update = (req, res) => {
+
+    Dev.findById({_id: req.params.id}, (err, developer) => {
+        if(err) {
+            res.json({
+                status: false,
+                error: "An error occurred"
+            });
+            return;
+        }
+        Object.assign(developer, req.body).save((err, developer) => {
+            if(err) {
+                res.json({
+                    status: false,
+                    error: "An error occurred"
+                });
+                return;
+            }
+
+            res.json({ message: 'Developer updated!', developer });
+        });
+    });
+}
