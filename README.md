@@ -1,4 +1,4 @@
-# Developers' Contacts API
+Developers' Contacts API
 ---
 ## Project Overview
 
