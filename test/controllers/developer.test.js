@@ -1,135 +1,137 @@
-let should = require("should");
-let sinon = require("sinon");
-let chai = require("chai");
-let expect = chai.expect;
-
+// let sinon = require("sinon");
 let mongoose = require("mongoose");
-require("sinon-mongoose");
-
 let Dev = require("../../server/models/developer");
 
-describe("Get all developers' contacts", () => {
-	it("should return all developers' contacts", (done) => {
-		let DevMock = sinon.mock(Dev);
-		let expectedResult = {
-			status: true,
-			developers: []
-		};
-		DevMock.expects('find').yields(null, expectedResult);
-		Dev.find((err, result) => {
-			DevMock.verify();
-			DevMock.restore();
-			expect(result.status).to.be.true;
-			done();
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let server = require('../../index.js');
+let should = chai.should();
+
+// require("sinon-mongoose");
+
+chai.use(chaiHttp);
+
+describe('DeveloperContact', () => {
+	// beforeEach((done) => {
+	// 	Dev.remove({}, (err) => {
+	// 		done();
+	// 	});
+	// });
+
+	describe('/GET developer', () => {
+		it('it should GET all the developers', (done) => {
+			chai.request(server)
+			.get('/api/developer')
+			.end((err, res) => {
+				res.should.have.status(200);
+				res.body.should.be.a('object');
+				res.body.should.have.property('status');
+				res.body.should.have.property('developers');
+				res.body.developers.should.be.a('array');
+				done();
+			});
 		});
 	});
 
-	it("should return error", (done) => {
-		let DevMock = sinon.mock(Dev);
-		let expectedResult = {
-			status: false,
-			error: "An error occurred"
-		};
-		DevMock.expects('find').yields(expectedResult, null);
-		Dev.find((err, result) => {
-			DevMock.verify();
-			DevMock.restore();
-			expect(err.status).to.not.be.true;
-			done();
-		});
-	});
-});
-
-describe("Create new developer contact", () => {
-	it("should create a developer contact", (done) => {
-		let DevMock = sinon.mock(new Dev({
-			name: "Dalhatu Njidda",
-			type: "Backend Developer",
-			email: "dalsdnjidda@gmail.com",
-			phone: "08132842499"
-		}));
-
-		let developer = DevMock.object;
-		let expectedResult = { status: true };
-		DevMock.expects('save').yields(null, expectedResult);
-		developer.save((err, result) => {
-			DevMock.verify();
-			DevMock.restore();
-			expect(result.status).to.be.true;
-			done();
+	describe('/POST developer', () => {
+		it('it should POST a developer ', (done) => {
+			let developer = {
+				name: "Dalhatu Njidda",
+				type: "Backend Developer",
+				email: "dalsdnjidda@gmail.com",
+				phone: "08132842499"
+			};
+			chai.request(server)
+			.post('/api/developer')
+			.send(developer)
+			.end((err, res) => {
+				res.should.have.status(200);
+				res.body.should.be.a('object');
+				res.body.should.have.property('message').eql('Developer successfully added!');
+				res.body.developer.should.have.property('name');
+				res.body.developer.should.have.property('email');
+				res.body.developer.should.have.property('phone');
+				res.body.developer.should.have.property('type');
+				done();
+			});
 		});
 	});
 
-	it("should return error, if not created", (done) => {
-		let DevMock = sinon.mock(new Dev({
-			name: "Dalhatu Njidda",
-			type: "Backend Developer",
-			email: "dalsdnjidda@gmail.com",
-			phone: "08132842499"
-		}));
-
-		let developer = DevMock.object;
-		let expectedResult = { status: false };
-		DevMock.expects('save').yields(expectedResult, null);
-		developer.save((err, result) => {
-			DevMock.verify();
-			DevMock.restore();
-			expect(err.status).to.not.be.true;
-			done();
-		});
-	});
-});
-
-describe("Update a developer contact by id", () => {
-	it("should update a developer contact by id", (done) => {
-		let DevMock = sinon.mock(new Dev({ role: "Frontend Developer" }));
-		let developer = DevMock.object;
-		let expectedResult = { status: true };
-		DevMock.expects('save').withArgs({_id: 1}).yields(null, expectedResult);
-		developer.save(function (err, result) {
-			DevMock.verify();
-			DevMock.restore();
-			expect(result.status).to.be.true;
-			done();
+	describe('/GET/:id developer', () => {
+		it('it should GET a developer by the given id', (done) => {
+			let developer = new Dev({
+				name: "Saleema Dalhatu",
+				type: "Frontend Developer",
+				email: "dalsnjidda@gmail.com",
+				phone: "09023084045"
+			});
+			developer.save((err, developer) => {
+				chai.request(server)
+				.get('/api/developer/' + developer.id)
+				.send(developer)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.should.have.property('name');
+					res.body.should.have.property('email');
+					res.body.should.have.property('phone');
+					res.body.should.have.property('type');
+					res.body.should.have.property('_id').eql(developer.id);
+					done();
+				});
+			});
 		});
 	});
 
-	it("should return error if update action is failed", (done) => {
-		let DevMock = sinon.mock(new Dev({ role: "Frontend Developer"}));
-		let developer = DevMock.object;
-		let expectedResult = { status: false };
-		DevMock.expects('save').withArgs({_id: 1}).yields(expectedResult, null);
-		developer.save((err, result) => {
-			DevMock.verify();
-			DevMock.restore();
-			expect(err.status).to.not.be.true;
-			done();
+	describe('/PUT/:id developer', () => {
+		it('it should UPDATE a developer given the id', (done) => {
+			let developer = new Dev({
+				name: "Zainab Dalhatu",
+				type: "Backend Developer",
+				email: "dals.njidda@gmail.com",
+				phone: "08136545311"
+			});
+			developer.save((err, developer) => {
+				chai.request(server)
+				.put('/api/developer/' + developer.id)
+				.send({
+					name: "Zainab Dalhatu",
+					type: "Fullstack Developer",
+					email: "dals.njidda@gmail.com",
+					phone: "0803716861"
+				})
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.should.have.property('message').eql('Developer contact updated!');
+					res.body.developer.should.have.property('type').eql("Fullstack Developer");
+					res.body.developer.should.have.property('phone').eql("08037164861");
+					done();
+				});
+			});
 		});
 	});
-});
 
-describe("Delete a developer by id", () => {
-	it("should delete a developer by id", (done) => {
-		var DevMock = sinon.mock(Dev);
-		var expectedResult = { status: true };
-		DevMock.expects('remove').withArgs({_id: 1}).yields(null, expectedResult);
-		Dev.remove({_id: 1}, (err, result) => {
-			DevMock.verify();
-			DevMock.restore();
-			expect(result.status).to.be.true;
-			done();
-		});
-	});
-
-	it("should return error if delete action failed", function(done){
-		var DevMock = sinon.mock(Dev);
-		var expectedResult = { status: false };
-		DevMock.expects('remove').withArgs({_id: 1}).yields(expectedResult, null);
-		Dev.remove({_id: 1}, function (err, result) {
-			DevMock.verify();
-			DevMock.restore();
-			expect(err.status).to.not.be.true;
-			done();
+	describe('/DELETE/:id developer', () => {
+		it('it should DELETE a developer given the id', (done) => {
+			let developer = new Dev({
+				name: "Zainab Dalhatu",
+				type: "Backend Developer",
+				email: "dals.njidda@gmail.com",
+				phone: "08136545311"
+			});
+			developer.save((err, developer) => {
+				chai.request(server)
+				.delete('/api/developer/' + developer.id)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.should.have.property('message').eql('Developer successfully deleted!');
+					res.body.result.should.have.property('ok').eql(1);
+					res.body.result.should.have.property('n').eql(1);
+					done();
+				});
+			});
 		});
 	});
 });
