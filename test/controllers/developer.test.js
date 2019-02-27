@@ -76,6 +76,29 @@ describe('DeveloperContact', () => {
 		});
 	});
 
+	describe('/GET/:role developer', () => {
+		it('it should GET developers by the given role', (done) => {
+			let developer = new Dev({
+				name: "Saleema Dalhatu",
+				role: "Frontend Developer",
+				email: "dalsnjidda@gmail.com",
+				phone: "09023084045"
+			});
+			developer.save((err, developer) => {
+				chai.request(server)
+				.get('/api/role/' + developer.role)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.should.have.property('status');
+					res.body.should.have.property('developers');
+					res.body.developers.should.be.a('array');
+					done();
+				});
+			});
+		});
+	});
+
 	describe('/PUT/:id developer', () => {
 		it('it should UPDATE a developer given the id', (done) => {
 			let developer = new Dev({

@@ -7,7 +7,7 @@ exports.index = (req, res) => {
         if (err) {
             res.json({
                 status: false,
-                error: "An error occurred"
+                error: err.message
             });
             return;
         }
@@ -28,7 +28,7 @@ exports.store = (req, res) => {
         if(err) {
             res.json({
                 status: false,
-                error: "An error occurred"
+                error: err.message
             });
             return;
         }
@@ -43,7 +43,7 @@ exports.view = (req, res) => {
         if(err) {
             res.json({
                 status: false,
-                error: "An error occurred"
+                error: err.message
             });
             return;
         }
@@ -58,7 +58,7 @@ exports.delete = (req, res) => {
 
         res.json({ message: "Developer successfully deleted!", result });
     });
-}
+};
 
 exports.update = (req, res) => {
 
@@ -66,7 +66,7 @@ exports.update = (req, res) => {
         if(err) {
             res.json({
                 status: false,
-                error: "An error occurred"
+                error: err.message
             });
             return;
         }
@@ -74,12 +74,29 @@ exports.update = (req, res) => {
             if(err) {
                 res.json({
                     status: false,
-                    error: "An error occurred"
+                    error: err.message
                 });
                 return;
             }
 
             res.json({ message: 'Developer updated!', developer });
+        });
+    });
+};
+
+exports.getByRole = (req, res) => {
+    Dev.find({role: req.params.role}, (err, developers) => {
+        if (err) {
+            res.json({
+                status: false,
+                error: err.message
+            });
+            return;
+        }
+
+        res.json({
+            status: true,
+            developers: developers
         });
     });
 }

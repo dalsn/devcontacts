@@ -3,16 +3,20 @@ let Schema = mongoose.Schema;
 
 let DeveloperSchema = Schema({
 	name: {
-		type: String
+		type: String,
+		required: true
 	},
 	role: {
-		type: String
+		type: String,
+		required: true
 	},
 	email: {
-		type: String
+		type: String,
+		required: true
 	},
 	phone: {
-		type: String
+		type: String,
+		default: null
 	},
 	created: {
 		type: Date,
