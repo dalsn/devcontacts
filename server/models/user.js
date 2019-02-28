@@ -1,12 +1,8 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let DeveloperSchema = Schema({
+let UserSchema = Schema({
 	name: {
-		type: String,
-		required: true
-	},
-	role: {
 		type: String,
 		required: true
 	},
@@ -15,9 +11,9 @@ let DeveloperSchema = Schema({
 		required: true,
 		unique: true
 	},
-	phone: {
+	password: {
 		type: String,
-		default: null
+		required: true
 	},
 	created: {
 		type: Date,
@@ -25,6 +21,6 @@ let DeveloperSchema = Schema({
 	}
 });
 
-let developer = mongoose.model('Developer', DeveloperSchema);
+let user = mongoose.model('User', UserSchema);
 
-module.exports = developer;
+module.exports = user;

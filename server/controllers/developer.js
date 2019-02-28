@@ -27,18 +27,37 @@ exports.store = (req, res) => {
     if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
-    let developer = new Dev(req.body);
+    Dev.findOne({email: req.body.email}, (err, developer) => {
 
-    developer.save((err, developer) => {
-        if(err) {
-            res.json({
+        if (err) {
+
+            return res.json({
                 status: "error",
                 error: err.message
             });
-            return;
         }
 
-        res.json({status: "success", message: "Developer successfully added!", developer });
+        if (developer) {
+
+            return res.json({
+                status: "error",
+                error: "Email already taken!"
+            });
+        }
+
+        let newDeveloper = new Dev(req.body);
+
+        newDeveloper.save((err, developer) => {
+            if(err) {
+                res.json({
+                    status: "error",
+                    error: err.message
+                });
+                return;
+            }
+
+            res.json({status: "success", message: "Developer successfully added!", newDeveloper });
+        });
     });
 };
 

@@ -35,6 +35,21 @@ let validation = {
 				}
 			})
 		]
+	},
+	user: {
+		save: [
+			check('name').exists().withMessage("Name field is required")
+			.isLength({ min: 6 }).withMessage("Name is too short"),
+			check('email').exists().withMessage("Email field is required")
+			.isEmail().withMessage("Invalid email"),
+			check('password').exists().withMessage("Password field is required")
+			.isLength({min: 8}).withMessage("Password must be 8 characters or more")
+		],
+		auth: [
+			check('email').exists().withMessage("Email field is required")
+			.isEmail().withMessage("Invalid email"),
+			check('password').exists().withMessage("Password field is required")
+		]
 	}
 };
 

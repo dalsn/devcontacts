@@ -3,7 +3,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 let config = {
-	port: process.env.PORT || 3000
+	port: process.env.PORT || 3000,
+	secret: "MysecretKeyFoReNcryptiON"
 };
 
 if (process.env.NODE_ENV === 'production') {
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 } else if(process.env.NODE_ENV === 'test') {
 	config = {
 		port: process.env.PORT || 3001,
+		secret: "MysecretKeyFoReNcryptiON",
 		db: process.env.TEST_DB || "mongodb://localhost/devapi_test"
 	};
 } else {
