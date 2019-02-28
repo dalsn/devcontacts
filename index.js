@@ -3,6 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const expressValidator = require('express-validator')
 
 const routes = require("./server/routes");
 
@@ -20,6 +21,8 @@ app.use(bodyParser.urlencoded({"extended": 'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json'}));
 app.use(methodOverride());
+
+app.use(expressValidator());
 
 routes(app)
 
