@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test'
+
 let mongoose = require("mongoose");
 let Dev = require("../../server/models/developer");
 

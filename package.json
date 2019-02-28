@@ -24,6 +24,7 @@
   "homepage": "https://github.com/dalsn/devcontacts#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "method-override": "^3.0.0",
     "mongoose": "^5.4.15",

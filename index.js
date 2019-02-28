@@ -27,7 +27,7 @@ app.get("*", (req, res) => res.status(SUCCESS).send({
     "message": "Developers's Contacts API",
 }));
 
-mongoose.connect(config.db);
+mongoose.connect(config.db, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', function() {
 	console.log("Connected to DB");
