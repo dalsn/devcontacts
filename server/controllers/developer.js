@@ -27,7 +27,7 @@ exports.store = (req, res) => {
     if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
-    Dev.findOne({email: req.body.email}, (err, developer) => {
+    Dev.findOne({email: req.body.email}, (err, dev) => {
 
         if (err) {
 
@@ -37,7 +37,7 @@ exports.store = (req, res) => {
             });
         }
 
-        if (developer) {
+        if (dev) {
 
             return res.json({
                 status: "error",
@@ -45,9 +45,9 @@ exports.store = (req, res) => {
             });
         }
 
-        let newDeveloper = new Dev(req.body);
+        let developer = new Dev(req.body);
 
-        newDeveloper.save((err, developer) => {
+        developer.save((err, developer) => {
             if(err) {
                 res.json({
                     status: "error",
@@ -56,7 +56,7 @@ exports.store = (req, res) => {
                 return;
             }
 
-            res.json({status: "success", message: "Developer successfully added!", newDeveloper });
+            res.json({status: "success", message: "Developer successfully added!", developer });
         });
     });
 };

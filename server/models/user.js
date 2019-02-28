@@ -1,4 +1,4 @@
-let mongoose = require('mongoose');
+let mongoose = require('mongoose').set('useCreateIndex', true);
 let Schema = mongoose.Schema;
 
 let UserSchema = Schema({
